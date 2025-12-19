@@ -21,6 +21,7 @@ export const usage = `
 <h1>🎮 Koishi 插件：awa-mc-ament - Minecraft 成就生成器</h1>
 <h2>🎯 插件版本：v${pkg.version}</h2>
 <p>插件使用问题 / Bug反馈 / 插件开发交流，欢迎加入QQ群：<b>259248174</b></p>
+<p>📖 <a href="https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament" target="_blank">【点我跳转到 Gitee 查看带图片的完整 README】</a></p>
 
 <hr>
 

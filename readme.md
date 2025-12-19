@@ -51,7 +51,7 @@ ament -t 挖到钻石！ -d 获得钻石 --mcicon 钻石
 
 借助 PyTorch+FastAPI 后端，进行语义相似度检测，选出 Minecraft 图片文件作为 icon。
 
-![mcicon示例](./doc/ament-mcicon.jpg)
+![mcicon示例](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/ament-mcicon.jpg)
 
 ---
 
@@ -65,7 +65,7 @@ ament -t 标题 -d 介绍
 
 使用引用消息的第一张图片作为 icon。
 
-![quote示例](./doc/ament-quote.jpg)
+![quote示例](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/ament-quote.jpg)
 
 ---
 
@@ -77,7 +77,7 @@ ament -t 标题 -d 介绍 --icon [图片]
 
 使用传入的 icon 图片参数作为 icon。
 
-![cmd-arg示例](./doc/ament-cmd-arg-image.jpg)
+![cmd-arg示例](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/ament-cmd-arg-image.jpg)
 
 ---
 
@@ -89,7 +89,7 @@ ament -t 标题 -d 介绍 @某人
 
 使用 session 消息中第一个艾特元素的用户头像作为 icon。
 
-![at示例](./doc/ament-at.jpg)
+![at示例](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/ament-at.jpg)
 
 ---
 
@@ -101,7 +101,7 @@ ament -t 标题 -d 介绍
 
 fallback 到默认准备好的幸运方块问号 icon。
 
-![fallback示例](./doc/ament-default-fallback-luckyblock.jpg)
+![fallback示例](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/ament-default-fallback-luckyblock.jpg)
 
 ---
 
