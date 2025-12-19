@@ -12,6 +12,11 @@
     "assets/*.jpeg"
   ],
   "license": "MIT",
+  "homepage": "https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament",
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament"
+  },
   "keywords": [
     "chatbot",
     "koishi",
