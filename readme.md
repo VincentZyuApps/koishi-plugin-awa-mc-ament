@@ -12,9 +12,10 @@
 ## 📦 安装
 
 ```bash
+yarn add koishi-plugin-awa-mc-ament
+# or
 npm install koishi-plugin-awa-mc-ament
 ```
-
 或在 Koishi 控制台的插件市场中搜索 `awa-mc-ament` 安装。
 
 ---
@@ -33,7 +34,7 @@ npm install koishi-plugin-awa-mc-ament
 
 本插件会按照以下优先级自动选择图标来源：
 
-1. 🎮 **Minecraft 游戏图标**（需要启用 [PyTorch 后端服务](https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend)）
+1. 🎮 **Minecraft 游戏图标**（可选，需要启用 [PyTorch 后端服务](https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend)）
 2. 💬 **引用消息的图片**
 3. 🖼️ **参数传入的图片**
 4. 👤 **@用户的头像**
@@ -61,7 +62,7 @@ ament -t 挖到钻石！ -d 获得钻石 --mcicon 钻石
 先引用一条包含图片的消息，然后发送：
 
 ```bash
-ament -t 标题 -d 介绍
+【引用消息...】ament -t 标题 -d 介绍
 ```
 
 使用引用消息的第一张图片作为 icon。
