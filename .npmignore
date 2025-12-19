@@ -1,0 +1,9 @@
+# 忽略字体文件（会自动从 Gitee 下载）
+assets/MinecraftAE.ttf
+assets/*.ttf
+assets/*.otf
+
+# 但是保留图片资源
+!assets/*.png
+!assets/*.jpg
+!assets/*.jpeg

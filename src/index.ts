@@ -4,6 +4,7 @@ import { readFileSync } from 'fs';
 import path from 'node:path';
 import { renderAmentImage } from './generate_image'
 import { readFile } from 'fs/promises';
+import { validateFonts } from './utils';
 
 export const name = 'koishi=plugin-qwq-mc-ament'
 
@@ -123,7 +124,7 @@ export const Config = Schema.intersect(
       {
         enableMciconBackend: Schema.boolean().default(false).experimental()
           .description("🎮 <b>(可选)</b>是否启用MC图标后端服务。启用本选项 会给ament指令增加一个--icon参数，例如：--icon diamond <br/> <i> 需要自行部署一个PyTorch+FastAPI后端: https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend </i>  "),
-        mciconBackendAddres: Schema.string().default('http://localhost:8989')
+        mciconBackendAddres: Schema.string().default('http://192.168.31.233:8989')
           .description("🔗 mc图标后端地址，完整URL（包含 http:// 或 https://）"),
       }
     ).description("🎯 MCICON-后端服务相关"),
@@ -137,6 +138,9 @@ export const Config = Schema.intersect(
 )
 
 export function apply(ctx: Context, config) {
+  // 验证并下载字体文件
+  validateFonts(ctx);
+
   // ctx.command('ament [arg0_title:string] [arg1_description:string]')
   // .action(async ({ session, options }, arg0_title, arg1_description) => {
   const amentCommand = ctx.command(

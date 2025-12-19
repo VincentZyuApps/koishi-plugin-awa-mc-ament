@@ -16,3 +16,6 @@ tsconfig.tsbuildinfo
 *.ntvs*
 *.njsproj
 *.sln
+
+src/tmp.html
+assets/MinecraftAE.ttf
