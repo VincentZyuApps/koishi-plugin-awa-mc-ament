@@ -42,6 +42,7 @@ npm install koishi-plugin-awa-mc-ament
 ---
 
 ## 📝 使用示例
+![qq-chat-history.jpg](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/qq-chat-history.jpg)
 
 ### 1️⃣ 使用 Minecraft 游戏图标（需要后端）
 
