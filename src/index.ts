@@ -11,51 +11,155 @@ export const inject = {
   required: ["puppeteer", "http", "i18n"]
 }
 
+const pkg = JSON.parse(
+  readFileSync(path.resolve(__dirname, '../package.json'), 'utf-8')
+)
+
+// Minecaft游戏图标 > 引用消息的图片 > 参数传入的图片 > at用户的头像 > 默认fallback幸运方块图标
+export const usage = `
+<h1>🎮 Koishi 插件：awa-mc-ament - Minecraft 成就生成器</h1>
+<h2>🎯 插件版本：v${pkg.version}</h2>
+<p>插件使用问题 / Bug反馈 / 插件开发交流，欢迎加入QQ群：<b>259248174</b></p>
+
+<hr>
+
+<h2>✨ 功能概述</h2>
+<p>生成 Minecraft 风格的成就/进度图片，支持自定义标题、描述和图标。</p>
+
+<hr>
+
+<h2>🔍 图标获取优先级</h2>
+<p>本插件会按照以下优先级自动选择图标来源：</p>
+<ol>
+  <li>🎮 <b>Minecraft 游戏图标</b>（需要启用<a href="https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend" target="_blank">Pytorch后端服务</a>）</li>
+  <li>💬 <b>引用消息的图片</b></li>
+  <li>🖼️ <b>参数传入的图片</b></li>
+  <li>👤 <b>@用户的头像</b></li>
+  <li>🎲 <b>默认幸运方块图标</b>（fallback）</li>
+</ol>
+
+<hr>
+
+<h2>📝 使用示例</h2>
+<ul>
+  <li>
+    <code>ament -t 标题 -d 介绍 --mcicon 钻石</code><br>
+    → 借助 PyTorch+FastAPI 后端，进行语义相似度检测，选出 Minecraft 图片文件作为 icon
+  </li>
+  <br>
+  <li>
+    <code>【先引用一条消息】 ament -t 标题 -d 介绍</code><br>
+    → 使用引用消息的第一张图片作为 icon
+  </li>
+  <br>
+  <li>
+    <code>ament -t 标题 -d 介绍 --icon [图片]</code><br>
+    → 使用传入的 icon 图片参数作为 icon
+  </li>
+  <br>
+  <li>
+    <code>ament -t 标题 -d 介绍 @某人</code><br>
+    → 使用 session 消息中第一个艾特元素的用户头像作为 icon
+  </li>
+  <br>
+  <li>
+    <code>ament -t 标题 -d 介绍</code><br>
+    → fallback 到默认准备好的幸运方块问号 icon
+  </li>
+</ul>
+
+<hr>
+
+<h2>⚙️ MC 图标后端（可选）</h2>
+<p>如需使用 <code>--mcicon</code> 参数进行 Minecraft 游戏图标搜索，请：</p>
+<ol>
+  <li>启用配置项中的 "启用MC图标后端服务"</li>
+  <li>自行部署 PyTorch+FastAPI 后端服务</li>
+  <li>
+    后端项目地址：<br>
+    <a href="https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend" target="_blank">
+      【点我跳转】https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend
+    </a>
+  </li>
+</ol>
+
+<hr>
+
+<h3>📜 许可声明</h3>
+<p>本插件为开源免费项目，基于 MIT 协议开放。欢迎修改、分发与二次开发。</p>
+`
+
 // export interface Config { }
 
 export const Config = Schema.intersect(
   [
     Schema.object(
       {
-        banAtUserArg: Schema.boolean().default(false).experimental().description("是否禁止使用at用户作为成就图标来源(官机得打开这个)"),
+        banAtUserArg: Schema.boolean().default(false).experimental()
+          .description("🚫 是否禁止使用at用户作为成就图标来源 </br> <i> (qq官机得打开这个，因为官机必须艾特bot才能用指令...) </i> "),
       }
-    ).description("参数相关"),
+    ).description("⚙️ Args-参数相关"),
     Schema.object(
       {
-        fontPath: Schema.string().default(path.join(__dirname, './../assets/MinecraftAE.ttf')).description("字体文件绝对路径"),
-        // fontPath: Schema.string().default(path.join(__dirname, './../assets/类像素字体_俐方体11号.ttf')).description("字体文件绝对路径"),
-        bgPath: Schema.string().default(path.join(__dirname, './../assets/AdvancementMade_BG.png')).description("背景图绝对路径"),
+        fontPath: Schema.string().default(path.join(__dirname, './../assets/MinecraftAE.ttf')).role('textarea', { rows: [2, 5] })
+          .description("🔤 字体文件绝对路径"),
+        bgPath: Schema.string().default(path.join(__dirname, './../assets/AdvancementMade_BG.png')).role('textarea', { rows: [2, 5] })
+          .description("🖼️ 背景图绝对路径"),
       }
-    ).description("Assets-静态资源资产相关"),
+    ).description("📦 Assets-静态资源资产相关"),
     Schema.object(
       {
-        page_screenshotquality: Schema.number().role('slider').min(0).max(100).step(1).default(60).description("Puppeteer截图质量参数， 图片压缩质量, 范围0-100")
+        browserScreenshotquality: Schema.number().role('slider').min(0).max(100).step(1).default(60)
+          .description("📸 Puppeteer截图质量参数，图片压缩质量, 范围0-100"),
+        browserScreenshotFormat: Schema.union([
+          Schema.const('jpeg').description('JPEG - 有损压缩，文件小'),
+          Schema.const('png').description('PNG - 无损压缩，支持透明'),
+          Schema.const('webp').description('WebP - 现代格式，兼顾质量与体积'),
+        ]).default('jpeg').role('radio')
+          .description("🖼️ 截图输出格式")
       }
-    ).description("PuppeteerConfig-浏览器配置相关"),
+    ).description("🌐 PuppeteerConfig-浏览器配置相关"),
     Schema.object(
       {
-        mcicon_backend_address: Schema.string().default('localhost:8989').description("mc图标后端地址，ip+port"),
+        enableMciconBackend: Schema.boolean().default(false).experimental()
+          .description("🎮 <b>(可选)</b>是否启用MC图标后端服务。启用本选项 会给ament指令增加一个--icon参数，例如：--icon diamond <br/> <i> 需要自行部署一个PyTorch+FastAPI后端: https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend </i>  "),
+        mciconBackendAddres: Schema.string().default('http://localhost:8989')
+          .description("🔗 mc图标后端地址，完整URL（包含 http:// 或 https://）"),
       }
-    ).description("MCICON-后端服务相关"),
+    ).description("🎯 MCICON-后端服务相关"),
     Schema.object(
       {
-        VerboseLoggerMode: Schema.boolean().default(false).description("是否开启详细输出")
+        VerboseLoggerMode: Schema.boolean().default(false)
+          .description("🔍 是否开启详细输出")
       }
-    ).description("DebugConfig-调试内容相关")
+    ).description("🐛 DebugConfig-调试内容相关")
   ]
 )
 
 export function apply(ctx: Context, config) {
   // ctx.command('ament [arg0_title:string] [arg1_description:string]')
   // .action(async ({ session, options }, arg0_title, arg1_description) => {
-  ctx.command('ament', "生成MC风格的成就/进度图片\n" + "\t【注意图标获取的优先级】：Minecaft游戏图标 > 引用消息的图片 > 参数传入的图片 > at用户的头像 > 默认fallback幸运方块图标。【没说明白就去看source code】\n")
+  const amentCommand = ctx.command(
+    'ament', 
+    "生成MC风格的成就/进度图片\n" +
+    "\t【注意图标获取的优先级】：Minecaft游戏图标 > 引用消息的图片 > 参数传入的图片 > at用户的头像 > 默认fallback幸运方块图标。【没说明白就去看source code】\n"
+  )
     // .subcommand("help")
     .option("arg0_title", '-t, --title <arg0_title:string> 成就标题', { fallback: "请输入标题" })
     .option("arg1_description", '-d, --description <arg1_description:string> 成就描述', { fallback: "请输入描述" })
     .option("arg2_icon", '-i, --icon <arg2_icon:image> 成就图标')
-    .option("arg3_mcicon", '-m, --mcicon <arg3_mcicon:string> Minecraft游戏图标搜索关键词')
 
-    .action(async ({ session, options }) => {
+  // 根据配置决定是否注册 mcicon option
+  if (config.enableMciconBackend) {
+    amentCommand.option("arg3_mcicon", '-m, --mcicon <arg3_mcicon:string> Minecraft游戏图标搜索关键词')
+  }
+
+  amentCommand.action(
+    async (
+      { session, options }: 
+      { session: Session, options: { arg0_title: string, arg1_description: string, arg2_icon?: any, arg3_mcicon?: string } }
+      // 所以arg2_icon的类型是什么哦🤔
+    ) => {
 
       const fallback_img_path = path.join(__dirname, './../assets/fallback_icon.jpg');
       const fallback_base64_str = readFileSync(fallback_img_path).toString('base64');
@@ -94,7 +198,7 @@ export function apply(ctx: Context, config) {
         }
         ctx.logger.info(JSON.stringify(bestItem.res));
         // ament_icon_image_element = `http://localhost:8989/mcimg/${bestItem.res.name.toString().replace(/\\/g, "/")}`;
-        ament_icon_image_element = `http://${config.mcicon_backend_address}/mcimg/${bestItem.res.name.toString().replace(/\\/g, "/")}`;
+        ament_icon_image_element = `${config.mciconBackendAddres}/mcimg/${bestItem.res.name.toString().replace(/\\/g, "/")}`;
 
 
       } else if (iconSource === "QUOTEMSG") { //引用是url
@@ -160,16 +264,20 @@ export function apply(ctx: Context, config) {
           // bgPath: path.join(ctx.baseDir, 'assets', 'AdvancementMade_BG.png')
           fontBase64: font_base64,
           bgBase64: bg_base64,
-          page_screenshotquality: config.page_screenshotquality
+          page_screenshotquality: config.browserScreenshotquality,
+          page_screenshotformat: config.browserScreenshotFormat
         }
       )
 
       // await session.send(h.image(res));
       // await session.send(`[debug] res:${res.slice(0, 50)}`);
+      const mimeType = config.browserScreenshotFormat === 'png' ? 'image/png' 
+        : config.browserScreenshotFormat === 'webp' ? 'image/webp' 
+        : 'image/jpeg';
       await session.send(
         h(
           'image',
-          { url: 'data:image/png;base64,' + res }
+          { url: `data:${mimeType};base64,` + res }
         )
       )
     })
@@ -263,10 +371,11 @@ export function apply(ctx: Context, config) {
     // return atElements.length > 0 ? atElements[0].attrs : null;
   };
 
+  //Pytorch后端选出来的最佳匹配结果捏
   async function getBestFuzzySearchRes(session, keyword: string) {
     try {
       // let url = "http://localhost:8989/fuzzy_guess";
-      let url = `http://${config.mcicon_backend_address}/fuzzy_guess`;
+      let url = `${config.mciconBackendAddres}/fuzzy_guess`;
       const params = new URLSearchParams();
       params.append("keyword", keyword);
       params.append("limit", "20");

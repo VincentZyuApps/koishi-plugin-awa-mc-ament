@@ -118,7 +118,8 @@ export async function renderAmentImage(
         // bgPath
         fontBase64,
         bgBase64,
-        page_screenshotquality
+        page_screenshotquality,
+        page_screenshotformat: 'jpeg' | 'png' | 'webp'
     }
 ) {
     const browserPage = await ctx.puppeteer.page();
@@ -162,10 +163,11 @@ export async function renderAmentImage(
 
         const res = await browserPage.screenshot({
             encoding: 'base64',
-            type: 'jpeg',
+            type: args.page_screenshotformat,
             omitBackground: true,
             fullPage: true,
-            quality: args.page_screenshotquality
+            // quality 参数仅对 jpeg/webp 有效，png 不支持
+            ...(args.page_screenshotformat !== 'png' && { quality: args.page_screenshotquality })
         })
 
         return res;
