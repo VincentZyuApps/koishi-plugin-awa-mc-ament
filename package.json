@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-awa-mc-ament",
   "description": "🎮 生成 Minecraft 风格的成就/进度 图片 🖼️✨",
-  "version": "0.0.4-rc.1+20260616",
+  "version": "0.1.0-beta.1+20260616",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
@@ -24,5 +24,14 @@
   ],
   "peerDependencies": {
     "koishi": "^4.18.7"
+  },
+  "koishi": {
+    "description": {
+      "en": "Generate Minecraft-style achievement/progress images with custom titles, descriptions and icons.",
+      "zh": "🎮 生成 Minecraft 风格的成就/进度 图片 🖼️✨"
+    },
+    "service": {
+      "required": ["puppeteer", "http"]
+    }
   }
 }

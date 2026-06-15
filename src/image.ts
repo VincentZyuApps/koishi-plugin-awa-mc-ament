@@ -119,7 +119,9 @@ export async function renderAmentImage(
         fontBase64,
         bgBase64,
         page_screenshotquality,
-        page_screenshotformat: 'jpeg' | 'png' | 'webp'
+        page_screenshotformat: 'jpeg' | 'png' | 'webp',
+        enableHtmlDump?: boolean,
+        htmlDumpPath?: string[]
     }
 ) {
     const browserPage = await ctx.puppeteer.page();
@@ -128,7 +130,7 @@ export async function renderAmentImage(
             await ctx.http.head(args.icon)
         }
 
-        // const bgPath = ctx.http.file(path.join(ctx.baseDir, 'assets', 'AdvancementMade_BG.png'));
+        // const bgPath = ctx.http.file(path.join(ctx.baseDir, 'assets', 'ament_made_bg.png.png'));
         // const fontPath = ctx.http.file(path.join(ctx.baseDir, 'assets', 'Minecraft_AE.ttf'));
 
         let arg_icon;
@@ -149,13 +151,19 @@ export async function renderAmentImage(
             fontBase64: args.fontBase64
         })
 
-        writeFileSync(path.join(__dirname, 'tmp.html'), html)
+        if (args.enableHtmlDump && args.htmlDumpPath?.length) {
+            const dumpDir = path.join(ctx.baseDir, ...args.htmlDumpPath)
+            if (!fs.existsSync(dumpDir)) {
+                fs.mkdirSync(dumpDir, { recursive: true })
+            }
+            writeFileSync(path.join(dumpDir, 'awa-mc-ament-tmp.html'), html)
+        }
 
         browserPage.on('console', msg => {
-            ctx.logger.debug(`Puppeteer console: ${msg.text()}`);
+            ctx.logger.debug(`🖥️ Puppeteer console: ${msg.text()}`);
         });
         browserPage.on('pageerror', error => {
-            ctx.logger.error(`Puppeteer page error: ${error.message}`);
+            ctx.logger.error(`❌ Puppeteer page error: ${error.message}`);
         });
 
         await browserPage.setContent(html);
@@ -173,7 +181,7 @@ export async function renderAmentImage(
         return res;
 
     } catch (e) {
-        ctx.logger.error(`error: ${e}`);
+        ctx.logger.error(`❌ error: ${e}`);
     } finally {
         // await browserPage.close();
     }

@@ -1,4 +1,4 @@
-![koishi-plugin-awa-mc-ament](https://socialify.git.ci/VincentZyuApps/koishi-plugin-awa-mc-ament/image?description=1&font=Bitter&forks=1&issues=1&language=1&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ff3%2FKoishi.js_Logo.png&name=1&owner=1&pattern=Plus&stargazers=1&theme=Auto)
+![koishi-plugin-awa-mc-ament](https://socialify.git.ci/VincentZyuApps/koishi-plugin-awa-mc-ament/image?custom_description=%F0%9F%8E%AE+%E7%94%9F%E6%88%90+Minecraft+%E9%A3%8E%E6%A0%BC%E7%9A%84%E6%88%90%E5%B0%B1%2F%E8%BF%9B%E5%BA%A6+%E5%9B%BE%E7%89%87+%F0%9F%96%BC%EF%B8%8F%E2%9C%A8&description=1&font=JetBrains+Mono&forks=1&issues=1&language=1&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ff3%2FKoishi.js_Logo.png&name=1&owner=1&pattern=Plus&pulls=1&stargazers=1&theme=Auto)
 
 # koishi-plugin-awa-mc-ament
 
@@ -122,7 +122,7 @@ fallback 到默认准备好的幸运方块问号 icon。
 
 1. 启用配置项中的 **"启用MC图标后端服务"**
 2. 自行部署 PyTorch+FastAPI 后端服务
-3. 配置后端地址（默认：`http://localhost:8989`）
+3. 配置后端地址（默认：`http://192.168.31.233:60615`）
 
 **后端项目地址：**  
 🔗 [https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend](https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend)
