@@ -37,7 +37,7 @@ export const usage = `
 <h2>🔍 图标获取优先级</h2>
 <p>本插件会按照以下优先级自动选择图标来源：</p>
 <ol>
-  <li>🎮 <b>Minecraft 游戏图标</b>（需要启用<a href="https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend" target="_blank">Pytorch后端服务</a>）</li>
+  <li>🎮 <b>Minecraft 游戏图标</b>（需要启用<a href="https://github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend" target="_blank">Pytorch后端服务</a>）</li>
   <li>💬 <b>引用消息的图片</b></li>
   <li>🖼️ <b>参数传入的图片</b></li>
   <li>👤 <b>@用户的头像</b></li>
@@ -83,8 +83,8 @@ export const usage = `
   <li>自行部署 PyTorch+FastAPI 后端服务</li>
   <li>
     后端项目地址：<br>
-    <a href="https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend" target="_blank">
-      【点我跳转】https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend
+    <a href="https://github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend" target="_blank">
+      【点我跳转】https://github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend
     </a>
   </li>
 </ol>

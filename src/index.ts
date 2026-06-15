@@ -2,7 +2,7 @@ import { Context, Session, h } from 'koishi'
 import { readFileSync } from 'fs'
 import path from 'node:path'
 import { renderAmentImage } from './image'
-import { validateFonts, fileToBase64, copyBuiltinAssets, extractFirstImageUrl, extractAtUser } from './utils'
+import { validateFonts, fileToBase64, copyBuiltinAssets, extractFirstImageUrl, extractFirstImageUrlAfterIcon, extractAtUser } from './utils'
 import { Config } from './config'
 import { getBestFuzzySearchRes } from './request'
 
@@ -37,7 +37,9 @@ async function resolveIcon(
 
   if ('id' in firstAtUser && !config.banAtUserArg)
     iconSource = "ATUSER"
-  if (options.arg2_icon)
+  // 由于 onebot adapter 疑似 bug：--icon 与紧跟的图片消息段之间不会自动插入空格，
+  // 导致 options.arg2_icon 未被正确解析。因此额外检查 session.content 中是否包含 --icon。
+  if (options.arg2_icon || session.content?.includes('--icon'))
     iconSource = "CMDARG"
   if (session.quote) {
     const firstImgUrl = await extractFirstImageUrl(session.quote.content)
@@ -60,7 +62,11 @@ async function resolveIcon(
   } else if (iconSource === "QUOTEMSG") {
     ament_icon_image_element = await extractFirstImageUrl(session.quote.content)
   } else if (iconSource === "CMDARG") {
-    ament_icon_image_element = options.arg2_icon.src
+    // 优先使用已解析的图片参数；若因 onebot adapter 疑似 bug 导致未解析，则从 content 中回退提取
+    ament_icon_image_element = options.arg2_icon?.src ?? options.arg2_icon?.url ?? options.arg2_icon?.file
+    if (!ament_icon_image_element) {
+      ament_icon_image_element = await extractFirstImageUrlAfterIcon(session.content)
+    }
   } else if (iconSource === "ATUSER") {
     const firstUserDict = extractAtUser(session.content)
     ament_icon_image_element = (await session.bot.getUser(firstUserDict['id'], session.event.guild.id)).avatar
@@ -110,6 +116,7 @@ export function apply(ctx: Context, config) {
 
       if (config.VerboseLoggerMode) {
         let args_msg = "🛠️[debug]\n"
+        args_msg += `📱[platform] = ${session.platform}\n`
         args_msg += `📝[options.arg0_title] = ${options.arg0_title}\n`
         args_msg += `📖[options.arg1_description] = ${options.arg1_description}\n`
         args_msg += `🎨[options.arg2_icon] = ${String(options.arg2_icon).slice(0, 100)}\n`
@@ -123,7 +130,7 @@ export function apply(ctx: Context, config) {
       const font_base64 = await fileToBase64(path.join(fontDir, 'MinecraftAE.ttf'))
       const bg_base64 = await fileToBase64(path.join(bgDir, 'ament_made_bg.png'))
 
-      const res = await renderAmentImage(ctx, {
+      const renderAmentImageRes = await renderAmentImage(ctx, {
         title: options.arg0_title,
         description: options.arg1_description,
         icon: iconResult.base64,
@@ -141,8 +148,10 @@ export function apply(ctx: Context, config) {
       const mimeType = config.browserScreenshotFormat === 'png' ? 'image/png'
         : config.browserScreenshotFormat === 'webp' ? 'image/webp'
         : 'image/jpeg'
+      const imageBase64Str = `data:${mimeType};base64,` + renderAmentImageRes;
       await session.send(
-        `${config.enableQuote !== false ? h.quote(session.messageId) : ''}${h('image', { url: `data:${mimeType};base64,` + res })}`
+        // `${config.enableQuote !== false ? h.quote(session.messageId) : ''}${h('image', { url: `data:${mimeType};base64,` + renderAmentImageRes })}`
+        `${config.enableQuote !== false ? h.quote(session.messageId) : ''}${h.image(imageBase64Str)}`
       )
     })
 }

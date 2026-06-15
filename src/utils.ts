@@ -99,6 +99,29 @@ export async function extractFirstImageUrl(content) {
   }
 }
 
+// 由于 onebot adapter 疑似 bug：--icon 参数与紧跟的图片消息段之间不会自动插入空格，
+// 导致 Koishi 命令解析器无法将图片识别为 options.arg2_icon。
+// 此函数用于从 session.content 中 --icon 之后的内容提取第一张图片作为回退。
+export async function extractFirstImageUrlAfterIcon(content: string): Promise<string> {
+  if (!content) return ''
+
+  try {
+    const iconIndex = content.indexOf('--icon')
+    if (iconIndex === -1) return ''
+
+    const afterIcon = content.slice(iconIndex + 6)
+    const elementContent = h.parse(afterIcon)
+    const imgElements = h.select(elementContent, 'img, image, mface')
+    if (imgElements.length > 0) {
+      return imgElements[0].attrs?.src || imgElements[0].attrs?.url || ''
+    }
+
+    return ''
+  } catch {
+    return ''
+  }
+}
+
 export function extractAtUser(content) {
   if (!content) return {}
 
@@ -114,6 +137,6 @@ export function extractAtUser(content) {
     }
     return {}
   } catch {
-    return ''
+    return {}
   }
 }

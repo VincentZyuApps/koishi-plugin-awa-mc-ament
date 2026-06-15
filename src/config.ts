@@ -84,7 +84,7 @@ export const Config: Schema<Config> = Schema.intersect([
   // ==== 🎯 McIcon-后端服务相关 ====
   Schema.object({
     enableMciconBackend: Schema.boolean().default(false).experimental()
-      .description("🎮 （可选）是否启用MC图标后端服务，给--icon参数用的，例如：--icon diamond <br/> <i>需要自行部署 PyTorch+FastAPI 后端，项目地址：<a href='https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend' target='_blank'>gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend</a></i>"),
+      .description("🎮 （可选）是否启用MC图标后端服务，给--icon参数用的，例如：--icon diamond <br/> <i>需要自行部署 PyTorch+FastAPI 后端，项目地址：<a href='https://github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend' target='_blank'>github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend</a></i>"),
     mciconBackendAddres: Schema.string().default('http://192.168.31.233:60615').experimental()
       .description("🔗 mc图标后端地址，完整URL（包含 http:// 或 https://）"),
   }).description("==== 🎯 McIcon-后端服务相关 ===="),

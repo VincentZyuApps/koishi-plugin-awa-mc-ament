@@ -43,7 +43,7 @@ npm install koishi-plugin-awa-mc-ament
 
 本插件会按照以下优先级自动选择图标来源：
 
-1. 🎮 **Minecraft 游戏图标**（可选，需要启用 [PyTorch 后端服务](https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend)）
+1. 🎮 **Minecraft 游戏图标**（可选，需要启用 [PyTorch 后端服务](https://github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend)）
 2. 💬 **引用消息的图片**
 3. 🖼️ **参数传入的图片**
 4. 👤 **@用户的头像**
@@ -125,7 +125,7 @@ fallback 到默认准备好的幸运方块问号 icon。
 3. 配置后端地址（默认：`http://192.168.31.233:60615`）
 
 **后端项目地址：**  
-🔗 [https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend](https://gitee.com/vincent-zyu/fastapi-awa-fuzzy-search-backend)
+🔗 [https://github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend](https://github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend)
 
 ---
 
