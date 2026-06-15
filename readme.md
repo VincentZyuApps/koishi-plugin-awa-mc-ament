@@ -132,21 +132,17 @@ fallback 到默认准备好的幸运方块问号 icon。
 
 ## 📱 聊天平台预览
 
-### OneBot（QQ 兼容协议）
+### OneBotV11
 
 ![OneBot 聊天记录](doc/onebot-chat-history-5-different-icon-source.jpg)
 
-从左到右依次展示 5 种图标来源：引用图片、`--icon` 图片参数、`--icon-base64` data: URL、@用户头像、默认幸运方块。
+> ↑ 从上到右依次展示 5 种图标来源：--mcicon -> 被引用消息 -> --icon -> 艾特用户的头像 -> 。
 
 ### QQ 官方 Bot 平台
 
-在 QQ 官方 Bot 平台，启用 `enableQQMarkdown` 后，每次生成图片时会附带 Markdown 消息和按钮。
-
 ![QQ Markdown 按钮示例](doc/qq-chat-history-markdown-button-base64.png)
-
-按钮功能：
-- **🔄 再来一张**：快速重新生成，默认使用苦力怕 SVG 作为图标
-- **❓ 获取帮助**：查看命令帮助
+> ↑ 在QQ官方Bot平台，启用 `enableQQMarkdown` 后，每次生成图片时会附带 Markdown 消息和按钮: **🔄 再来一张** 和 **❓ 获取帮助**。
+> ↑ 展示了 --icon-base64 的说法
 
 ---
 
