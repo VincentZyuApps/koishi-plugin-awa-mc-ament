@@ -9,12 +9,9 @@
 [![Gitee](https://img.shields.io/badge/Gitee-C71D23?style=for-the-badge&logo=gitee&logoColor=white)](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament)
 
 [![Koishi Forum](https://img.shields.io/badge/Koishi论坛-5546A3?style=for-the-badge&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ff3%2FKoishi.js_Logo.png&logoColor=white)](https://forum.koishi.xyz/t/topic/12076/3)
-
 [![QQ群](https://img.shields.io/badge/QQ群-259248174-12B7F5?style=flat-square&logo=qq&logoColor=white)](https://qm.qq.com/q/4vjto4V7Di)
 
-🎮 **Koishi 插件：awa-mc-ament - Minecraft 成就生成器**
-
-生成 Minecraft 风格的成就/进度图片，支持自定义标题、描述和图标。
+🎮 Koishi 插件：awa-mc-ament - Minecraft 进度/成就风格图片 生成器 ，支持自定义标题、描述和图标。
 
 ---
 
@@ -32,10 +29,12 @@ npm install koishi-plugin-awa-mc-ament
 ## ✨ 功能特性
 
 - 🎨 生成 Minecraft 风格的成就图片
-- 🖼️ 支持多种图标来源（游戏图标、用户头像、自定义图片等）
-- 🎮 可选的 PyTorch 语义搜索后端支持
+- 🖼️ 支持多种图标来源（游戏图标、引用图片、图片消息段、data: URL、用户头像、默认图标）
+- 🎮 可选的 PyTorch 语义搜索后端
 - 📸 支持多种图片格式输出（JPEG、PNG、WebP）
 - 🔤 自动下载字体文件，无需手动配置
+- 🤖 QQ 官方 Bot 平台支持 Markdown + 按钮消息
+- 🧪 实验性 `--icon-base64` 参数，直接传入 data: URL 作为图标
 
 ---
 
@@ -45,14 +44,15 @@ npm install koishi-plugin-awa-mc-ament
 
 1. 🎮 **Minecraft 游戏图标**（可选，需要启用 [PyTorch 后端服务](https://github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend)）
 2. 💬 **引用消息的图片**
-3. 🖼️ **参数传入的图片**
+3. 🖼️ **参数传入的图片**（`--icon-base64` 优先于 `--icon`）
 4. 👤 **@用户的头像**
 5. 🎲 **默认幸运方块图标**（fallback）
+
+代码标识符：`MCICON > QUOTEMSG > CMDARG(--icon-base64 > --icon) > ATUSER > LUCKYBLOCK`
 
 ---
 
 ## 📝 使用示例
-![qq-chat-history.jpg](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/qq-chat-history.jpg)
 
 ### 1️⃣ 使用 Minecraft 游戏图标（需要后端）
 
@@ -62,7 +62,7 @@ ament -t 挖到钻石！ -d 获得钻石 --mcicon 钻石
 
 借助 PyTorch+FastAPI 后端，进行语义相似度检测，选出 Minecraft 图片文件作为 icon。
 
-![mcicon示例](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/ament-mcicon.jpg)
+![mcicon示例](doc/ament-mcicon.jpg)
 
 ---
 
@@ -76,7 +76,7 @@ ament -t 挖到钻石！ -d 获得钻石 --mcicon 钻石
 
 使用引用消息的第一张图片作为 icon。
 
-![quote示例](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/ament-quote.jpg)
+![quote示例](doc/ament-quote.jpg)
 
 ---
 
@@ -88,11 +88,25 @@ ament -t 标题 -d 介绍 --icon [图片]
 
 使用传入的 icon 图片参数作为 icon。
 
-![cmd-arg示例](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/ament-cmd-arg-image.jpg)
+![cmd-arg示例](doc/ament-cmd-arg-image.jpg)
 
 ---
 
-### 4️⃣ 使用 @用户的头像
+### 4️⃣ 使用 data: URL 作为图标（实验性）
+
+需先在配置中启用 `enableBase64IconArg`，然后：
+
+```bash
+ament -t 标题 -d 介绍 --icon-base64 data:image/svg+xml;base64,<base64数据>
+```
+
+直接传入 base64 编码的图片数据，适合不想上传图片的场景。
+
+![base64示例](doc/ament-cmd-arg-base64.png)
+
+---
+
+### 5️⃣ 使用 @用户的头像
 
 ```bash
 ament -t 标题 -d 介绍 @某人
@@ -100,11 +114,11 @@ ament -t 标题 -d 介绍 @某人
 
 使用 session 消息中第一个艾特元素的用户头像作为 icon。
 
-![at示例](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/ament-at.jpg)
+![at示例](doc/ament-at.jpg)
 
 ---
 
-### 5️⃣ 使用默认幸运方块图标
+### 6️⃣ 使用默认幸运方块图标
 
 ```bash
 ament -t 标题 -d 介绍
@@ -112,7 +126,27 @@ ament -t 标题 -d 介绍
 
 fallback 到默认准备好的幸运方块问号 icon。
 
-![fallback示例](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/example-image/ament-default-fallback-luckyblock.jpg)
+![fallback示例](doc/ament-default-fallback-luckyblock.jpg)
+
+---
+
+## 📱 聊天平台预览
+
+### OneBot（QQ 兼容协议）
+
+![OneBot 聊天记录](doc/onebot-chat-history-5-different-icon-source.jpg)
+
+从左到右依次展示 5 种图标来源：引用图片、`--icon` 图片参数、`--icon-base64` data: URL、@用户头像、默认幸运方块。
+
+### QQ 官方 Bot 平台
+
+在 QQ 官方 Bot 平台，启用 `enableQQMarkdown` 后，每次生成图片时会附带 Markdown 消息和按钮。
+
+![QQ Markdown 按钮示例](doc/qq-chat-history-markdown-button-base64.png)
+
+按钮功能：
+- **🔄 再来一张**：快速重新生成，默认使用苦力怕 SVG 作为图标
+- **❓ 获取帮助**：查看命令帮助
 
 ---
 
@@ -131,23 +165,48 @@ fallback 到默认准备好的幸运方块问号 icon。
 
 ## 🔧 配置项
 
-### Args - 参数相关
-- `banAtUserArg`：是否禁止使用 at 用户作为成就图标来源（QQ 官机建议打开）
+### 💬 消息设置
+| 配置项 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `enableQuote` | `boolean` | `true` | 是否自动引用回复触发指令的消息 |
+| `commandName` | `string` | `"ament"` | 指令名称 |
 
-### Assets - 静态资源相关
-- `fontPath`：字体文件绝对路径（自动下载，无需手动配置）
-- `bgPath`：背景图绝对路径
+### ⚙️ Args - 参数相关
+| 配置项 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `banAtUserArg` | `"none" \| "all" \| "qq"` | `"qq"` | @用户作为图标来源的禁用范围（radio 选择） |
+| `enableBase64IconArg` | `boolean` | `false` | 启用 `--icon-base64` 参数，允许传入 data: URL |
 
-### Puppeteer - 浏览器配置
-- `browserScreenshotquality`：截图质量参数（0-100）
-- `browserScreenshotFormat`：截图输出格式（JPEG/PNG/WebP）
+### 🤖 QQ 官方 Bot 平台设置
+| 配置项 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `enableQQMarkdown` | `boolean` | `true` | 发送图片时附带 Markdown + 按钮消息 |
+| `qqMarkdownKeyboardJson` | `string` | 默认键盘 JSON | Markdown 按钮 JSON 配置（支持变量 `${commandName}` `${title}` `${description}` `${userId}`） |
 
-### MCICON - 后端服务相关
-- `enableMciconBackend`：是否启用 MC 图标后端服务
-- `mciconBackendAddres`：mc 图标后端地址（完整 URL）
+### 📦 Assets - 静态资源相关
+| 配置项 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `fontPath` | `string[]` | `["data","assets","fonts"]` | 字体文件路径（自动下载） |
+| `bgPath` | `string[]` | `["data","assets","awa-mc-ament","image"]` | 背景图路径（自动复制） |
 
-### Debug - 调试相关
-- `VerboseLoggerMode`：是否开启详细输出
+### 🌐 Puppeteer - 浏览器截图配置
+| 配置项 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `browserScreenshotquality` | `number` | `80` | 截图质量 (0-100) |
+| `browserScreenshotFormat` | `"jpeg" \| "png" \| "webp"` | `"png"` | 截图输出格式 |
+| `enableHtmlDump` | `boolean` | `false` | 是否将 HTML 模板写入文件（调试用） |
+| `htmlDumpPath` | `string[]` | `["tmp"]` | HTML 模板输出目录 |
+
+### 🎯 MC 图标后端
+| 配置项 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `enableMciconBackend` | `boolean` | `false` | 启用 MC 图标后端服务 |
+| `mciconBackendAddres` | `string` | `"http://192.168.31.233:60615"` | 后端地址（完整 URL） |
+
+### 🐛 Debug - 调试
+| 配置项 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `VerboseLoggerMode` | `boolean` | `false` | 是否开启详细输出 |
 
 ---
 
@@ -157,14 +216,11 @@ fallback 到默认准备好的幸运方块问号 icon。
 
 ---
 
-## 📜 许可声明
 
-本插件为开源免费项目，基于 MIT 协议开放。欢迎修改、分发与二次开发。
 
 ---
 
 ## 🙏 致谢
 
 - 字体：[Minecraft AE](https://www.fontspace.com/minecraft-font-f28180)
-- 灵感来源：Minecraft 游戏成就系统
-
+- 灵感来源：Minecraft 游戏 [成就（Achievement）](https://minecraft.wiki/w/Achievement) / [进度（Advancement）](https://minecraft.wiki/w/Advancement) 系统
