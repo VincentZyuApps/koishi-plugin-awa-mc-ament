@@ -5,6 +5,9 @@ import { renderAmentImage } from './image'
 import { validateFonts, fileToBase64, copyBuiltinAssets, extractFirstImageUrl, extractFirstImageUrlAfterIcon, extractAtUser } from './utils'
 import { Config } from './config'
 import { getBestFuzzySearchRes } from './request'
+import { sendQQMarkdown, buildAmentMarkdown, buildQueryKeyboard } from './qq'
+import { CREEPER_BASE64_URL } from './const'
+import { IconSource } from './type'
 
 export const name = 'koishi-plugin-awa-mc-ament'
 
@@ -17,40 +20,42 @@ export { Config } from './config'
 
 interface IconResult {
   base64: string
-  source: string
+  source: IconSource
 }
 
 async function resolveIcon(
   ctx: Context,
   config: Config,
   session: Session,
-  options: { arg2_icon?: any; arg3_mcicon?: string }
+  options: { arg2_icon?: any; arg3_mcicon?: string; arg4_base64?: string }
 ): Promise<IconResult | null> {
   const bgDir = path.join(ctx.baseDir, ...config.bgPath)
   const fallback_img_path = path.join(bgDir, 'fallback_icon.jpg')
   const fallback_base64_str = readFileSync(fallback_img_path).toString('base64')
 
-  let iconSource = "LUCKYBLOCK"
+  let iconSource = IconSource.LUCKYBLOCK
   const firstAtUser = extractAtUser(session.content)
   if (config.VerboseLoggerMode)
     ctx.logger.info("👤 fitstAtUser = " + firstAtUser)
 
-  if ('id' in firstAtUser && !config.banAtUserArg)
-    iconSource = "ATUSER"
+  const isAtUserBanned = config.banAtUserArg === 'all' ||
+    (config.banAtUserArg === 'qq' && (session.platform === 'qq' || session.platform === 'qqguild'))
+  if ('id' in firstAtUser && !isAtUserBanned)
+    iconSource = IconSource.ATUSER
   // 由于 onebot adapter 疑似 bug：--icon 与紧跟的图片消息段之间不会自动插入空格，
   // 导致 options.arg2_icon 未被正确解析。因此额外检查 session.content 中是否包含 --icon。
-  if (options.arg2_icon || session.content?.includes('--icon'))
-    iconSource = "CMDARG"
+  if (options.arg4_base64 || options.arg2_icon || session.content?.includes('--icon'))
+    iconSource = IconSource.CMDARG
   if (session.quote) {
     const firstImgUrl = await extractFirstImageUrl(session.quote.content)
     if (firstImgUrl !== "")
-      iconSource = "QUOTEMSG"
+      iconSource = IconSource.QUOTEMSG
   }
   if (options.arg3_mcicon)
-    iconSource = "MCICON"
+    iconSource = IconSource.MCICON
 
   let ament_icon_image_element
-  if (iconSource === "MCICON") {
+  if (iconSource === IconSource.MCICON) {
     const bestItem = await getBestFuzzySearchRes(ctx, config.mciconBackendAddres, options.arg3_mcicon)
     ctx.logger.info(`🔍 options.arg3_mcicon = ${options.arg3_mcicon}`)
     if (bestItem.isSucceed === false) {
@@ -59,24 +64,31 @@ async function resolveIcon(
     }
     ctx.logger.info(`📦 ${JSON.stringify(bestItem.res)}`)
     ament_icon_image_element = `${config.mciconBackendAddres}/mcimg/${bestItem.res.name.toString().replace(/\\/g, "/")}`
-  } else if (iconSource === "QUOTEMSG") {
+  } else if (iconSource === IconSource.QUOTEMSG) {
     ament_icon_image_element = await extractFirstImageUrl(session.quote.content)
-  } else if (iconSource === "CMDARG") {
-    // 优先使用已解析的图片参数；若因 onebot adapter 疑似 bug 导致未解析，则从 content 中回退提取
-    ament_icon_image_element = options.arg2_icon?.src ?? options.arg2_icon?.url ?? options.arg2_icon?.file
-    if (!ament_icon_image_element) {
-      ament_icon_image_element = await extractFirstImageUrlAfterIcon(session.content)
+  } else if (iconSource === IconSource.CMDARG) {
+    if (options.arg4_base64) {
+      ament_icon_image_element = options.arg4_base64
+    } else {
+      const rawIcon = options.arg2_icon
+      ament_icon_image_element = rawIcon?.src ?? rawIcon?.url ?? rawIcon?.file
+      if (!ament_icon_image_element) {
+        ament_icon_image_element = await extractFirstImageUrlAfterIcon(session.content)
+      }
     }
-  } else if (iconSource === "ATUSER") {
+  } else if (iconSource === IconSource.ATUSER) {
     const firstUserDict = extractAtUser(session.content)
     ament_icon_image_element = (await session.bot.getUser(firstUserDict['id'], session.event.guild.id)).avatar
-  } else if (iconSource === "LUCKYBLOCK") {
+  } else if (iconSource === IconSource.LUCKYBLOCK) {
     ament_icon_image_element = `data:image/jpeg;base64,${fallback_base64_str}`
   }
 
   let ament_icon_base64
-  if (iconSource === "LUCKYBLOCK") {
+  if (iconSource === IconSource.LUCKYBLOCK) {
     ament_icon_base64 = fallback_base64_str
+  } else if (typeof ament_icon_image_element === 'string' && ament_icon_image_element.startsWith('data:')) {
+    // 保留完整 data URI（含 MIME 类型），模板会根据 MIME 类型直接使用
+    ament_icon_base64 = ament_icon_image_element
   } else {
     const ament_icon_buffer = await ctx.http.file(ament_icon_image_element)
     ament_icon_base64 = Buffer.from(ament_icon_buffer.data).toString('base64')
@@ -95,12 +107,18 @@ export function apply(ctx: Context, config) {
   const cmdName = config.commandName || 'ament'
   const amentCommand = ctx.command(
     cmdName,
-    "生成MC风格的成就/进度图片\n" +
-    "\t【注意图标获取的优先级】：Minecaft游戏图标 > 引用消息的图片 > 参数传入的图片 > at用户的头像 > 默认fallback幸运方块图标。【没说明白就去看source code】\n"
+    "生成MC风格的成就/进度图片 \n" +
+    "\t【注意图标获取的优先级】：Minecaft游戏图标(如果对接Pytorch后端) > 被引用消息的第一张图片 > 参数传入的图片(--base64优先, --icon其次) > 被艾特用户的头像 > 默认fallback幸运方块图标 \n" +
+    "\t【代码里面的标识符】MCICON > QUOTEMSG > CMDARG(--base64 > --icon) > ATUSER > LUCKYBLOCK" +
+    "\t (如果没明白就去看源代码: https://github.com/VincentZyuApps/koishi-plugin-awa-mc-ament)\n"
   )
     .option("arg0_title", '-t, --title <arg0_title:string> 成就标题', { fallback: "请输入标题" })
     .option("arg1_description", '-d, --description <arg1_description:string> 成就描述', { fallback: "请输入描述" })
     .option("arg2_icon", '-i, --icon <arg2_icon:image> 成就图标')
+
+  if (config.enableBase64IconArg) {
+    amentCommand.option("arg4_base64", '--icon-base64 <arg4_base64:string> 使用 data: URL 作为图标')
+  }
 
   if (config.enableMciconBackend) {
     amentCommand.option("arg3_mcicon", '-m, --mcicon <arg3_mcicon:string> Minecraft游戏图标搜索关键词')
@@ -109,7 +127,7 @@ export function apply(ctx: Context, config) {
   amentCommand.action(
     async (
       { session, options }:
-      { session: Session, options: { arg0_title: string; arg1_description: string; arg2_icon?: any; arg3_mcicon?: string } }
+      { session: Session, options: { arg0_title: string; arg1_description: string; arg2_icon?: any; arg3_mcicon?: string; arg4_base64?: string } }
     ) => {
       const iconResult = await resolveIcon(ctx, config, session, options)
       if (!iconResult) return
@@ -120,6 +138,7 @@ export function apply(ctx: Context, config) {
         args_msg += `📝[options.arg0_title] = ${options.arg0_title}\n`
         args_msg += `📖[options.arg1_description] = ${options.arg1_description}\n`
         args_msg += `🎨[options.arg2_icon] = ${String(options.arg2_icon).slice(0, 100)}\n`
+        args_msg += `📦[options.arg4_base64] = ${String(options.arg4_base64).slice(0, 100)}\n`
         args_msg += `🖼️[options.arg3_mcicon] = ${options.arg3_mcicon}\n`
         args_msg += `[iconSource] = ${iconResult.source}\n`
         args_msg += `🅰️[fontDir] = ${fontDir}\n`
@@ -153,5 +172,18 @@ export function apply(ctx: Context, config) {
         // `${config.enableQuote !== false ? h.quote(session.messageId) : ''}${h('image', { url: `data:${mimeType};base64,` + renderAmentImageRes })}`
         `${config.enableQuote !== false ? h.quote(session.messageId) : ''}${h.image(imageBase64Str)}`
       )
+
+      if (config.enableQQMarkdown && (session.platform === 'qq' || session.platform === 'qqguild')) {
+        const md = buildAmentMarkdown(options.arg0_title, options.arg1_description)
+        const kb = buildQueryKeyboard(
+          config.commandName,
+          session.userId,
+          options.arg0_title,
+          options.arg1_description,
+          CREEPER_BASE64_URL,
+          config.qqMarkdownKeyboardJson,
+        )
+        await sendQQMarkdown(session, md, kb)
+      }
     })
 }

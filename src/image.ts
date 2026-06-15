@@ -38,7 +38,7 @@ const defaultTemplate = async (options) => `
             width: 200px;
             height: 200px;
             margin-right: 40px;
-            background-image: url(data:image/png;base64,${options.iconBase64}); /* 使用图片 URL */
+            background-image: url(${options.iconBase64}); /* 使用图片 URL */
             
             background-size: cover;
 
@@ -136,15 +136,16 @@ export async function renderAmentImage(
         let arg_icon;
         if (args.iconMode === "path")
             arg_icon = `data:image/png;base64,${await readFile(args.icon, 'base64')}`;
-        else if (args.iconMode === "base64")
-            arg_icon = args.icon;
-        else if (args.iconMode === "url")
+        else if (args.iconMode === "base64") {
+            // 如果已经是完整的 data: URI（如 SVG data URI），直接使用；否则按 PNG 包装
+            arg_icon = args.icon.startsWith('data:') ? args.icon : `data:image/png;base64,${args.icon}`;
+        } else if (args.iconMode === "url")
             arg_icon = `url(${args.icon})`;
 
         const html = await defaultTemplate({
             title: args.title,
             description: args.description,
-            iconBase64: args.icon,
+            iconBase64: arg_icon,
             width: 1280,
             height: 256,
             bgBase64: args.bgBase64,

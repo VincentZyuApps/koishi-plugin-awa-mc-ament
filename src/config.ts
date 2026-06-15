@@ -1,5 +1,5 @@
 import { Schema } from 'koishi'
-import path from 'node:path'
+import { stringifyCompact, DEFAULT_KEYBOARD_ROWS } from './qq'
 
 /**
  * 📋 插件配置项接口
@@ -12,8 +12,16 @@ export interface Config {
   commandName: string
 
   // ==== ⚙️ Args-参数相关 ====
-  /** 🚫 是否禁止使用 at 用户作为成就图标来源 */
-  banAtUserArg: boolean
+  /** 🚫 @用户 作为成就图标来源的禁用范围 */
+  banAtUserArg: 'none' | 'all' | 'qq'
+  /** 🧪 是否注册 --icon-base64 参数 */
+  enableBase64IconArg: boolean
+
+  // ==== 🤖 QQ 官方 Bot 平台设置 ====
+  /** 💬 是否在 QQ 官方 Bot 平台发送图片时附带 Markdown + 按钮消息 */
+  enableQQMarkdown: boolean
+  /** 📋 QQ Markdown 按钮 JSON 配置 */
+  qqMarkdownKeyboardJson: string
 
   // ==== 📦 Assets-静态资源资产相关 ====
   /** 🔤 字体文件路径（相对于 Koishi 根目录） */
@@ -53,9 +61,27 @@ export const Config: Schema<Config> = Schema.intersect([
 
   // ==== ⚙️ Args-参数相关 ====
   Schema.object({
-    banAtUserArg: Schema.boolean().default(false).experimental()
-      .description("🚫 是否禁止使用at用户作为成就图标来源 </br> <i> (qq官机得打开这个，因为<u>没开主动</u>的qq官机必须艾特bot才能用指令... <br>可以去用<a href='https://github.com/VincentZyuApps/koishi-plugin-get-qq-bot-transfer-link' target='_blank'>get-qq-bot-transfer-link插件</a>开启主动消息) </i> "),
+    banAtUserArg: Schema.union([
+      Schema.const('none').description('🌐 全部平台都允许使用 @用户 作为成就图标'),
+      Schema.const('all').description('🚫 全部平台都禁止使用 @用户 作为成就图标'),
+      Schema.const('qq').description('💬 仅 qq 平台禁止使用 @用户 作为成就图标（默认）'),
+    ]).default('qq').role('radio')
+      .description("👤 @用户 作为成就图标来源的禁用范围 </br> <i> (qq官机因为<u>没开主动</u>必须艾特bot才能用指令，所以@用户会冲突，建议选「仅qq禁止」... <br>可以去用<a href='https://github.com/VincentZyuApps/koishi-plugin-get-qq-bot-transfer-link' target='_blank'>get-qq-bot-transfer-link插件</a>开启主动消息) </i> "),
+    enableBase64IconArg: Schema.boolean().default(false).experimental()
+      .description("🧪 （实验性）是否注册 --icon-base64 参数，允许传入 data: URL 作为成就图标"),
   }).description("==== ⚙️ Args-参数相关 ===="),
+
+  // ==== 🤖 QQ 官方 Bot 平台设置 ====
+  Schema.object({
+    enableQQMarkdown: Schema.boolean().default(true)
+      .description('💬 在 QQ 官方 Bot 平台发送图片时附带 Markdown + 按钮消息'),
+    qqMarkdownKeyboardJson: Schema.string()
+      .role('textarea', { rows: [5, 10] })
+      .default(stringifyCompact(DEFAULT_KEYBOARD_ROWS))
+      .description(
+        '📋 QQ Markdown 按钮 JSON 配置<br><em>支持变量: <code>${commandName}</code> <code>${title}</code> <code>${description}</code> <code>${userId}</code></em>',
+      ),
+  }).description('==== 🤖 QQ 官方 Bot 平台设置 ===='),
 
   // ==== 📦 Assets-静态资源资产相关 ====
   Schema.object({

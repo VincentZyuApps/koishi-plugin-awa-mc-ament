@@ -1,0 +1,7 @@
+export enum IconSource {
+  LUCKYBLOCK = 'LUCKYBLOCK',
+  ATUSER = 'ATUSER',
+  CMDARG = 'CMDARG',
+  QUOTEMSG = 'QUOTEMSG',
+  MCICON = 'MCICON',
+}
