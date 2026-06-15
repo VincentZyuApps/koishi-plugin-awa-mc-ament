@@ -1,7 +1,16 @@
+![koishi-plugin-awa-mc-ament](https://socialify.git.ci/VincentZyuApps/koishi-plugin-awa-mc-ament/image?description=1&font=Bitter&forks=1&issues=1&language=1&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ff3%2FKoishi.js_Logo.png&name=1&owner=1&pattern=Plus&stargazers=1&theme=Auto)
+
 # koishi-plugin-awa-mc-ament
 
 [![npm](https://img.shields.io/npm/v/koishi-plugin-awa-mc-ament?style=flat-square)](https://www.npmjs.com/package/koishi-plugin-awa-mc-ament)
 [![npm-download](https://img.shields.io/npm/dm/koishi-plugin-awa-mc-ament?style=flat-square)](https://www.npmjs.com/package/koishi-plugin-awa-mc-ament)
+
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/VincentZyuApps/koishi-plugin-awa-mc-ament)
+[![Gitee](https://img.shields.io/badge/Gitee-C71D23?style=for-the-badge&logo=gitee&logoColor=white)](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament)
+
+[![Koishi Forum](https://img.shields.io/badge/Koishi论坛-5546A3?style=for-the-badge&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ff3%2FKoishi.js_Logo.png&logoColor=white)](https://forum.koishi.xyz/t/topic/12076/3)
+
+[![QQ群](https://img.shields.io/badge/QQ群-259248174-12B7F5?style=flat-square&logo=qq&logoColor=white)](https://qm.qq.com/q/4vjto4V7Di)
 
 🎮 **Koishi 插件：awa-mc-ament - Minecraft 成就生成器**
 
