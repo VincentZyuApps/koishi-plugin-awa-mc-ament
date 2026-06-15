@@ -142,6 +142,7 @@ fallback 到默认准备好的幸运方块问号 icon。
 
 ![QQ Markdown 按钮示例](doc/qq-chat-history-markdown-button-base64.png)
 > ↑ 在QQ官方Bot平台，启用 `enableQQMarkdown` 后，每次生成图片时会附带 Markdown 消息和按钮: **🔄 再来一张** 和 **❓ 获取帮助**。
+
 > ↑ 展示了 --icon-base64 的说法
 
 ---
