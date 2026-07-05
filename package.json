@@ -1,15 +1,13 @@
 {
   "name": "koishi-plugin-awa-mc-ament",
   "description": "🎮 生成 Minecraft 风格的成就/进度 图片 🖼️✨",
-  "version": "0.2.2-beta.3+20260616",
+  "version": "0.2.4-beta.5+20260705",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
     "lib",
     "dist",
-    "assets/*.png",
-    "assets/*.jpg",
-    "assets/*.jpeg"
+    "assets"
   ],
   "license": "MIT",
   "homepage": "https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament",
@@ -31,7 +29,10 @@
       "zh": "🎮 生成 Minecraft 风格的成就/进度 图片 🖼️✨"
     },
     "service": {
-      "required": ["puppeteer", "http"]
+      "required": [
+        "puppeteer",
+        "http"
+      ]
     }
   }
 }

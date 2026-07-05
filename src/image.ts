@@ -131,7 +131,6 @@ export async function renderAmentImage(
         }
 
         // const bgPath = ctx.http.file(path.join(ctx.baseDir, 'assets', 'ament_made_bg.png.png'));
-        // const fontPath = ctx.http.file(path.join(ctx.baseDir, 'assets', 'Minecraft_AE.ttf'));
 
         let arg_icon;
         if (args.iconMode === "path")

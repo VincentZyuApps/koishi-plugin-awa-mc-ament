@@ -2,14 +2,22 @@
 
 # koishi-plugin-awa-mc-ament
 
-[![npm](https://img.shields.io/npm/v/koishi-plugin-awa-mc-ament?style=flat-square)](https://www.npmjs.com/package/koishi-plugin-awa-mc-ament)
-[![npm-download](https://img.shields.io/npm/dm/koishi-plugin-awa-mc-ament?style=flat-square)](https://www.npmjs.com/package/koishi-plugin-awa-mc-ament)
+[![npm](https://img.shields.io/npm/v/koishi-plugin-awa-mc-ament?style=flat-square&logo=npm)](https://www.npmjs.com/package/koishi-plugin-awa-mc-ament)
+[![npm-download](https://img.shields.io/npm/dm/koishi-plugin-awa-mc-ament?style=flat-square&logo=npm)](https://www.npmjs.com/package/koishi-plugin-awa-mc-ament)
+
+[![Koishi](https://img.shields.io/badge/Koishi-plugin-5546A3?style=flat-square&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABU0lEQVR42p2UQSsFYRSGnxnqLuytKWKpKFkQNsS%2FsOHPWPADLCmxU5S7UzYWNrJR7lYiRF2FeWzOMKZ7mXHqNNP5vvP2nu%2B850CY2lP4X1K31ZbaDm%2BpO%2Bpyp5wfAXVEPfRvO1JHf4AVQGbUh7j4EZ4VkrNCXPVRnf3CUBN1SH2KC28VGOV3ntRhNclZHdcAKYM11QR1oVBOXctzFlNgBTC8qmXxPQEegbVeYApIgJT6tg%2F0AdMp0B%2FBpCabK2AAmAAa%2F2GRBft1oBFPkqTAba7LCiAfQC9wClwAY1HJHepuiO29Yrsf1Dn1uiDU3RTYCtTkl1Leg8k9MB4NGgReI28rV3azgyCz0og01Xl1Uz1QX8uCTELm3UbkTF1VJ9Wr0tn3iBSGdjYG0XivE3VN3VD31PM4a3cc2tIGGI0VkTO7rLxGuiy25ejmjfqsvkSXui62TxaK03td4FXTAAAAAElFTkSuQmCC)](https://koishi.chat/zh-CN/market/)
 
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/VincentZyuApps/koishi-plugin-awa-mc-ament)
 [![Gitee](https://img.shields.io/badge/Gitee-C71D23?style=for-the-badge&logo=gitee&logoColor=white)](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament)
 
-[![Koishi Forum](https://img.shields.io/badge/Koishi论坛-5546A3?style=for-the-badge&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ff3%2FKoishi.js_Logo.png&logoColor=white)](https://forum.koishi.xyz/t/topic/12076/3)
-[![QQ群](https://img.shields.io/badge/QQ群-259248174-12B7F5?style=flat-square&logo=qq&logoColor=white)](https://qm.qq.com/q/4vjto4V7Di)
+[![Koishi Forum](https://img.shields.io/badge/Koishi%20Forum-12076-5546A3?style=for-the-badge&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABU0lEQVR42p2UQSsFYRSGnxnqLuytKWKpKFkQNsS%2FsOHPWPADLCmxU5S7UzYWNrJR7lYiRF2FeWzOMKZ7mXHqNNP5vvP2nu%2B850CY2lP4X1K31ZbaDm%2BpO%2Bpyp5wfAXVEPfRvO1JHf4AVQGbUh7j4EZ4VkrNCXPVRnf3CUBN1SH2KC28VGOV3ntRhNclZHdcAKYM11QR1oVBOXctzFlNgBTC8qmXxPQEegbVeYApIgJT6tg%2F0AdMp0B%2FBpCabK2AAmAAa%2F2GRBft1oBFPkqTAba7LCiAfQC9wClwAY1HJHepuiO29Yrsf1Dn1uiDU3RTYCtTkl1Leg8k9MB4NGgReI28rV3azgyCz0og01Xl1Uz1QX8uCTELm3UbkTF1VJ9Wr0tn3iBSGdjYG0XivE3VN3VD31PM4a3cc2tIGGI0VkTO7rLxGuiy25ejmjfqsvkSXui62TxaK03td4FXTAAAAAElFTkSuQmCC&logoColor=white)](https://forum.koishi.xyz/t/topic/12076)
+[![QQ群](https://img.shields.io/badge/QQ群-1085190201-12B7F5?style=flat-square&logo=qq&logoColor=white)](https://qm.qq.com/q/ZN7fxZ3qCq)
+
+<h2>💬 交流反馈</h2>
+<p>🐛 Bug 反馈 / 💡 建议 / 👨‍💻 插件开发交流，欢迎加群：</p>
+<p><del>💬 插件使用问题 / 🐛 Bug反馈 / 👨‍💻 插件开发交流，欢迎加入QQ群：<b>259248174</b>   🎉（这个群G了）</del></p> 
+<p>💬 插件使用问题 / 🐛 Bug反馈 / 👨‍💻 插件开发交流，欢迎加入QQ群：<b>1085190201</b> 🎉</p>
+<p>💡 在群里直接艾特我，回复的更快哦~ ✨</p>
 
 🎮 Koishi 插件：awa-mc-ament - Minecraft 进度/成就风格图片 生成器 ，支持自定义标题、描述和图标。
 
@@ -62,7 +70,7 @@ ament -t 挖到钻石！ -d 获得钻石 --mcicon 钻石
 
 借助 PyTorch+FastAPI 后端，进行语义相似度检测，选出 Minecraft 图片文件作为 icon。
 
-![mcicon示例](doc/ament-mcicon.jpg)
+![mcicon示例](doc/images/preview/ament-mcicon.jpg)
 
 ---
 
@@ -76,7 +84,7 @@ ament -t 挖到钻石！ -d 获得钻石 --mcicon 钻石
 
 使用引用消息的第一张图片作为 icon。
 
-![quote示例](doc/ament-quote.jpg)
+![quote示例](doc/images/preview/ament-quote.jpg)
 
 ---
 
@@ -88,7 +96,7 @@ ament -t 标题 -d 介绍 --icon [图片]
 
 使用传入的 icon 图片参数作为 icon。
 
-![cmd-arg示例](doc/ament-cmd-arg-image.jpg)
+![cmd-arg示例](doc/images/preview/ament-cmd-arg-image.jpg)
 
 ---
 
@@ -102,7 +110,7 @@ ament -t 标题 -d 介绍 --icon-base64 data:image/svg+xml;base64,<base64数据>
 
 直接传入 base64 编码的图片数据，适合不想上传图片的场景。
 
-![base64示例](doc/ament-cmd-arg-base64.png)
+![base64示例](doc/images/preview/ament-cmd-arg-base64.png)
 
 ---
 
@@ -114,7 +122,7 @@ ament -t 标题 -d 介绍 @某人
 
 使用 session 消息中第一个艾特元素的用户头像作为 icon。
 
-![at示例](doc/ament-at.jpg)
+![at示例](doc/images/preview/ament-at.jpg)
 
 ---
 
@@ -126,7 +134,7 @@ ament -t 标题 -d 介绍
 
 fallback 到默认准备好的幸运方块问号 icon。
 
-![fallback示例](doc/ament-default-fallback-luckyblock.jpg)
+![fallback示例](doc/images/preview/ament-default-fallback-luckyblock.jpg)
 
 ---
 
@@ -134,16 +142,18 @@ fallback 到默认准备好的幸运方块问号 icon。
 
 ### OneBotV11
 
-![OneBot 聊天记录](doc/onebot-chat-history-5-different-icon-source.jpg)
+![OneBot 聊天记录](doc/images/preview/onebot-chat-history-5-different-icon-source.jpg)
 
 > ↑ 从上到右依次展示 5 种图标来源：--mcicon -> 被引用消息 -> --icon -> 艾特用户的头像 -> 。
 
 ### QQ 官方 Bot 平台
 
-![QQ Markdown 按钮示例](doc/qq-chat-history-markdown-button-base64.png)
+![QQ Markdown 按钮示例 - icon base64图片参数](doc/images/preview/qq-chat-history-markdown-button-icon-base64-option.png)
+![QQ Markdown 按钮示例 - icon 消息段图片参数](doc/images/preview/qq-chat-history-markdown-button-icon-image-option.png)
+
 > ↑ 在QQ官方Bot平台，启用 `enableQQMarkdown` 后，每次生成图片时会附带 Markdown 消息和按钮: **🔄 再来一张** 和 **❓ 获取帮助**。
 
-> ↑ 展示了 --icon-base64 的说法
+> ↑ 分别展示了 `--icon-base64` 和 `--icon` 图片参数的说法
 
 ---
 
@@ -183,7 +193,7 @@ fallback 到默认准备好的幸运方块问号 icon。
 ### 📦 Assets - 静态资源相关
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `fontPath` | `string[]` | `["data","assets","fonts"]` | 字体文件路径（自动下载） |
+| `fontPath` | `string` | `data/fonts` | 字体文件目录（运行时使用 `ctx.baseDir/data/fonts`，自动下载） |
 | `bgPath` | `string[]` | `["data","assets","awa-mc-ament","image"]` | 背景图路径（自动复制） |
 
 ### 🌐 Puppeteer - 浏览器截图配置
@@ -204,16 +214,6 @@ fallback 到默认准备好的幸运方块问号 icon。
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
 | `VerboseLoggerMode` | `boolean` | `false` | 是否开启详细输出 |
-
----
-
-## 💬 交流反馈
-
-插件使用问题 / Bug反馈 / 插件开发交流，欢迎加入 QQ 群：**259248174**
-
----
-
-
 
 ---
 

@@ -1,5 +1,6 @@
 import { Schema } from 'koishi'
 import { stringifyCompact, DEFAULT_KEYBOARD_ROWS } from './qq'
+import { DEFAULT_CONFIG_FONT_DIR } from './font'
 
 /**
  * 📋 插件配置项接口
@@ -24,8 +25,8 @@ export interface Config {
   qqMarkdownKeyboardJson: string
 
   // ==== 📦 Assets-静态资源资产相关 ====
-  /** 🔤 字体文件路径（相对于 Koishi 根目录） */
-  fontPath: string[]
+  /** 🔤 字体文件目录 */
+  fontPath: string
   /** 🖼️ 背景图路径（相对于 Koishi 根目录） */
   bgPath: string[]
 
@@ -85,8 +86,8 @@ export const Config: Schema<Config> = Schema.intersect([
 
   // ==== 📦 Assets-静态资源资产相关 ====
   Schema.object({
-    fontPath: Schema.array(String).role('table').default(['data', 'assets', 'fonts'])
-      .description("🔤 字体文件路径（相对于 Koishi 根目录，启动时自动从 Gitee 下载到该目录）"),
+    fontPath: Schema.string().role('textarea', { rows: [2, 5] }).default(DEFAULT_CONFIG_FONT_DIR)
+      .description("🔤 字体文件目录（默认展示 cwd/data/fonts；运行时使用 ctx.baseDir/data/fonts）"),
     bgPath: Schema.array(String).role('table').default(['data', 'assets', 'awa-mc-ament', 'image'])
       .description("🖼️ 背景图路径（相对于 Koishi 根目录，启动时自动从插件内置资源复制到该目录）"),
   }).description("==== 📦 Assets-静态资源资产相关 ===="),
