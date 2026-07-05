@@ -1,3 +1,5 @@
+> 前往 [GitHub](https://github.com/VincentZyuApps/koishi-plugin-awa-mc-ament) 或 [Gitee](https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament) 阅读 README，获得更佳体验。
+
 ![koishi-plugin-awa-mc-ament](https://socialify.git.ci/VincentZyuApps/koishi-plugin-awa-mc-ament/image?custom_description=%F0%9F%8E%AE+%E7%94%9F%E6%88%90+Minecraft+%E9%A3%8E%E6%A0%BC%E7%9A%84%E6%88%90%E5%B0%B1%2F%E8%BF%9B%E5%BA%A6+%E5%9B%BE%E7%89%87+%F0%9F%96%BC%EF%B8%8F%E2%9C%A8&description=1&font=JetBrains+Mono&forks=1&issues=1&language=1&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ff3%2FKoishi.js_Logo.png&name=1&owner=1&pattern=Plus&pulls=1&stargazers=1&theme=Auto)
 
 # koishi-plugin-awa-mc-ament

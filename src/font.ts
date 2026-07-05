@@ -15,6 +15,22 @@ interface FontIntegrity {
   sha512: string
 }
 
+interface FontDownloadSource {
+  source: string
+  url: string
+}
+
+const MINECRAFT_AE_FONT_DOWNLOAD_SOURCES: FontDownloadSource[] = [
+  {
+    source: 'Gitee',
+    url: 'https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/fonts/Minecraft_AE.ttf',
+  },
+  {
+    source: 'GitHub',
+    url: 'https://github.com/VincentZyuApps/koishi-plugin-awa-mc-ament/releases/download/fonts/Minecraft_AE.ttf',
+  },
+]
+
 const FONT_INTEGRITY: Record<string, FontIntegrity> = {
   [MINECRAFT_AE_FONT_FILE_NAME]: {
     size: 16162252,
@@ -81,6 +97,32 @@ function verifyFontIntegrity(filePath: string, expected: FontIntegrity): boolean
     && hashes.sha512 === expected.sha512
 }
 
+async function downloadAndVerifyFont(ctx: Context, filePath: string, filename: string, expected: FontIntegrity, sources: FontDownloadSource[]): Promise<boolean> {
+  let lastError: unknown
+
+  for (const candidate of sources) {
+    try {
+      ctx.logger.info(`📥 开始下载字体文件 ${filename} (${candidate.source}): ${candidate.url}`)
+      const response = await ctx.http.get(candidate.url, { responseType: 'arraybuffer' })
+      const fontBuffer = Buffer.from(response)
+
+      writeFileSync(filePath, fontBuffer)
+      if (!verifyFontIntegrity(filePath, expected)) {
+        throw new Error(`字体 hash 校验失败: ${filename}`)
+      }
+
+      ctx.logger.info(`✅ 字体文件 ${filename} 下载完成，hash 校验通过 (${candidate.source})`)
+      return true
+    } catch (error) {
+      lastError = error
+      ctx.logger.warn(`⚠️ ${candidate.source} 字体下载或校验失败，准备尝试下一个源: ${error instanceof Error ? error.message : String(error)}`)
+    }
+  }
+
+  ctx.logger.error(`❌ 下载字体文件 ${filename} 失败，所有下载源均不可用或校验失败: ${lastError instanceof Error ? lastError.message : String(lastError)}`)
+  return false
+}
+
 export async function validateFonts(ctx: Context): Promise<void> {
   const fontDir = getDefaultFontDir(ctx)
 
@@ -91,7 +133,7 @@ export async function validateFonts(ctx: Context): Promise<void> {
   const fontConfigs = [
     {
       filename: MINECRAFT_AE_FONT_FILE_NAME,
-      downloadUrl: 'https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament/releases/download/fonts/Minecraft_AE.ttf'
+      downloadSources: MINECRAFT_AE_FONT_DOWNLOAD_SOURCES,
     }
   ]
 
@@ -110,17 +152,8 @@ export async function validateFonts(ctx: Context): Promise<void> {
       ctx.logger.info(`📥 字体文件 ${fontConfig.filename} 不存在，开始下载到 ${fontDir}...`)
     }
 
-    try {
-      const response = await ctx.http.get(fontConfig.downloadUrl, { responseType: 'arraybuffer' })
-      const fontBuffer = Buffer.from(response)
-
-      writeFileSync(fontPath, fontBuffer)
-      if (expected && !verifyFontIntegrity(fontPath, expected)) {
-        throw new Error(`❌ 字体 hash 校验失败: ${fontConfig.filename}`)
-      }
-      ctx.logger.info(`✅ 字体文件 ${fontConfig.filename} 下载完成，hash 校验通过`)
-    } catch (error) {
-      ctx.logger.error(`❌ 下载字体文件 ${fontConfig.filename} 失败: ${error.message}`)
+    if (expected) {
+      await downloadAndVerifyFont(ctx, fontPath, fontConfig.filename, expected, fontConfig.downloadSources)
     }
   }
 }
