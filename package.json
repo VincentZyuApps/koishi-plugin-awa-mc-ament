@@ -10,10 +10,10 @@
     "assets"
   ],
   "license": "MIT",
-  "homepage": "https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament",
+  "homepage": "https://github.com/VincentZyuApps/koishi-plugin-awa-mc-ament",
   "repository": {
     "type": "git",
-    "url": "https://github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend"
+    "url": "https://github.com/VincentZyuApps/koishi-plugin-awa-mc-ament.git"
   },
   "keywords": [
     "chatbot",

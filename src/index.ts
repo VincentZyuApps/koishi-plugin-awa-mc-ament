@@ -33,10 +33,7 @@ export function apply(ctx: Context, config) {
   const cmdName = config.commandName || 'ament'
   const amentCommand = ctx.command(
     cmdName,
-    "生成MC风格的成就/进度图片 \n" +
-    "\t【注意图标获取的优先级】：Minecaft游戏图标(如果对接Pytorch后端) > 被引用消息的第一张图片 > 参数传入的图片(--base64优先, --icon其次) > 被艾特用户的头像 > 默认fallback幸运方块图标 \n" +
-    "\t【代码里面的标识符】MCICON > QUOTEMSG > CMDARG(--base64 > --icon) > ATUSER > LUCKYBLOCK" +
-    "\t (如果没明白就去看源代码: https://github.com/VincentZyuApps/koishi-plugin-awa-mc-ament)\n"
+    "生成MC风格的成就/进度图片"
   )
     .option("arg0_title", '-t, --title <arg0_title:string> 成就标题', { fallback: "请输入标题" })
     .option("arg1_description", '-d, --description <arg1_description:string> 成就描述', { fallback: "请输入描述" })
