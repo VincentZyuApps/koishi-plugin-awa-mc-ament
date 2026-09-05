@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-awa-mc-ament",
   "description": "🎮 生成 Minecraft 风格的成就/进度 图片 🖼️✨",
-  "version": "0.2.5-beta.6+20260705",
+  "version": "0.2.5-rc.1+20260906",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [

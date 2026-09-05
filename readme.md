@@ -5,7 +5,7 @@
 # koishi-plugin-awa-mc-ament
 
 [![npm](https://img.shields.io/npm/v/koishi-plugin-awa-mc-ament?style=flat-square&logo=npm)](https://www.npmjs.com/package/koishi-plugin-awa-mc-ament)
-[![npm-download](https://img.shields.io/npm/dm/koishi-plugin-awa-mc-ament?style=flat-square&logo=npm)](https://www.npmjs.com/package/koishi-plugin-awa-mc-ament)
+[![npm-download](https://img.shields.io/npm/dm/koishi-plugin-awa-mc-ament?style=flat-square&logo=npm)](https://npm-stat.com/charts.html?package=koishi-plugin-awa-mc-ament)
 
 [![Koishi](https://img.shields.io/badge/Koishi-plugin-5546A3?style=flat-square&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABU0lEQVR42p2UQSsFYRSGnxnqLuytKWKpKFkQNsS%2FsOHPWPADLCmxU5S7UzYWNrJR7lYiRF2FeWzOMKZ7mXHqNNP5vvP2nu%2B850CY2lP4X1K31ZbaDm%2BpO%2Bpyp5wfAXVEPfRvO1JHf4AVQGbUh7j4EZ4VkrNCXPVRnf3CUBN1SH2KC28VGOV3ntRhNclZHdcAKYM11QR1oVBOXctzFlNgBTC8qmXxPQEegbVeYApIgJT6tg%2F0AdMp0B%2FBpCabK2AAmAAa%2F2GRBft1oBFPkqTAba7LCiAfQC9wClwAY1HJHepuiO29Yrsf1Dn1uiDU3RTYCtTkl1Leg8k9MB4NGgReI28rV3azgyCz0og01Xl1Uz1QX8uCTELm3UbkTF1VJ9Wr0tn3iBSGdjYG0XivE3VN3VD31PM4a3cc2tIGGI0VkTO7rLxGuiy25ejmjfqsvkSXui62TxaK03td4FXTAAAAAElFTkSuQmCC)](https://koishi.chat/zh-CN/market/)
 
