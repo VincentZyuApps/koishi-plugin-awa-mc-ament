@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-awa-mc-ament",
   "description": "🎮 生成 Minecraft 风格的成就/进度 图片 🖼️✨",
-  "version": "0.2.4-beta.5+20260705",
+  "version": "0.2.4-beta.6+20260906",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
@@ -10,10 +10,10 @@
     "assets"
   ],
   "license": "MIT",
-  "homepage": "https://gitee.com/vincent-zyu/koishi-plugin-awa-mc-ament",
+  "homepage": "https://github.com/VincentZyuApps/koishi-plugin-awa-mc-ament",
   "repository": {
     "type": "git",
-    "url": "https://github.com/VincentZyuApps/fastapi-awa-fuzzy-search-minecraft-backend"
+    "url": "https://github.com/VincentZyuApps/koishi-plugin-awa-mc-ament.git"
   },
   "keywords": [
     "chatbot",
